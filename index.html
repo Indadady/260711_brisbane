@@ -18,7 +18,8 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="2026 영월신천초 호주 글로벌 리더십 캠프 제안서">
     <meta property="og:description" content="호주 브리즈번 UniSQ 명문대 부설 UIL 홈스테이 몰입형 영어 캠프 & 스쿨링 체험">
-    <meta property="og:image" content="https://tse1.mm.bing.net/th/id/OIP.PvZ-Oom0Ue1aO4NG1QQkWAHaE8?w=474&h=474&c=7&p=0">
+    <!-- 브리즈번/골드코스트 느낌의 고화질 이미지 썸네일 (웹페이지 메인 이미지와 동일하게 매칭) -->
+    <meta property="og:image" content="https://cd-visit.beda.systems/-/jssmedia/project/beda/shared/1_brisbane-lga/1_the-city/brisbane_howard-smith-wharves_brisbane-river.jpg?h=1080&iar=0&w=1920&rev=6d85cd73e6b84a349ceb835ac2ae2acf&hash=A11B367C3AD46234309772E593242E53&mw=1080">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <!-- // SNS 설정 끝 -->
@@ -97,12 +98,13 @@
         }
         
         /* 🗺️ Animated Map Styles */
-        .animated-path {
-            stroke-dasharray: 10, 15;
-            animation: dash 20s linear infinite;
+        .solid-path {
+            stroke-dasharray: 4000;
+            stroke-dashoffset: 4000;
+            animation: drawPath 2s ease-in-out forwards;
         }
-        @keyframes dash {
-            to { stroke-dashoffset: -1000; }
+        @keyframes drawPath {
+            to { stroke-dashoffset: 0; }
         }
         .map-marker-custom {
             display: flex;
@@ -833,21 +835,24 @@
                 locations: {
                     bne: { name: '브리즈번 공항 (BNE)', lat: -27.3842, lng: 153.1198, icon: 'fa-plane-arrival', color: '#64748b' },
                     mtcoot: { name: '마운트 쿠사 전망대', lat: -27.4766, lng: 152.9558, icon: 'fa-mountain', color: '#3b82f6' },
-                    southbank: { name: '사우스뱅크 & 박물관', lat: -27.4735, lng: 153.0183, icon: 'fa-building-columns', color: '#0ea5e9' },
-                    uil: { name: 'UIL 캠퍼스 (숙소/본부)', lat: -27.6710, lng: 152.9181, icon: 'fa-house-chimney-user', color: '#ea580c' },
-                    queens: { name: '퀸즈파크 입스위치', lat: -27.6186, lng: 152.7667, icon: 'fa-tree', color: '#10b981' },
+                    qldmuseum: { name: '퀸즐랜드 박물관', lat: -27.4735, lng: 153.0183, icon: 'fa-building-columns', color: '#0284c7' },
+                    southbank: { name: '사우스뱅크', lat: -27.4795, lng: 153.0205, icon: 'fa-tree-city', color: '#0ea5e9' },
+                    uil: { name: 'UIL 캠퍼스 (본부/숙소)', lat: -27.6710, lng: 152.9181, icon: 'fa-house-chimney-user', color: '#ea580c' },
+                    queens: { name: '퀸즈파크 입스위치', lat: -27.6186, lng: 152.7667, icon: 'fa-leaf', color: '#10b981' },
                     orion: { name: '오리온 마켓', lat: -27.6833, lng: 152.9100, icon: 'fa-store', color: '#f59e0b' },
-                    mastery: { name: 'Mastery Schools 스쿨링', lat: -27.6698, lng: 152.9125, icon: 'fa-school', color: '#8b5cf6' },
+                    mastery: { name: 'Mastery 로컬스쿨', lat: -27.6698, lng: 152.9125, icon: 'fa-school-flag', color: '#8b5cf6' },
                     lonepine: { name: '론파인 코알라', lat: -27.5332, lng: 152.9689, icon: 'fa-paw', color: '#ec4899' },
-                    movieworld: { name: '워너브라더스 무비월드', lat: -27.8624, lng: 153.3120, icon: 'fa-ticket', color: '#eab308' }
+                    unisq: { name: 'UniSQ 대학교 워크샵', lat: -27.6725, lng: 152.9160, icon: 'fa-graduation-cap', color: '#6366f1' },
+                    movieworld: { name: '무비월드', lat: -27.8624, lng: 153.3120, icon: 'fa-ticket', color: '#eab308' }
                 },
                 routes: [
                     { id: 'all', label: '전체 여정', color: '#94a3b8', path: [] },
-                    { id: 'day2', label: '2일차(도착/투어)', color: '#3b82f6', path: ['bne', 'mtcoot', 'southbank', 'uil'] },
+                    { id: 'day2', label: '2일차(도착/시티)', color: '#3b82f6', path: ['bne', 'mtcoot', 'qldmuseum', 'southbank', 'uil'] },
                     { id: 'day3', label: '3일차(퀸즈파크)', color: '#10b981', path: ['uil', 'queens', 'uil'] },
                     { id: 'day4', label: '4일차(오리온마켓)', color: '#f59e0b', path: ['uil', 'orion', 'uil'] },
                     { id: 'day5', label: '5일차(스쿨링/코알라)', color: '#ec4899', path: ['uil', 'mastery', 'lonepine', 'uil'] },
-                    { id: 'day7', label: '7일차(무비월드)', color: '#8b5cf6', path: ['uil', 'movieworld', 'uil'] },
+                    { id: 'day6', label: '6일차(UniSQ)', color: '#6366f1', path: ['uil', 'unisq', 'uil'] },
+                    { id: 'day7', label: '7일차(무비월드)', color: '#eab308', path: ['uil', 'movieworld', 'uil'] },
                     { id: 'day8', label: '8일차(귀국)', color: '#64748b', path: ['uil', 'bne'] }
                 ]
             };
@@ -876,9 +881,9 @@
                     // Draw animated polyline
                     const polyline = L.polyline(latlngs, {
                         color: r.color,
-                        weight: 5,
-                        opacity: 0.8,
-                        className: 'animated-path'
+                        weight: 4,
+                        opacity: 0.9,
+                        className: 'solid-path'
                     }).addTo(map);
                     currentPolylines.push(polyline);
 
