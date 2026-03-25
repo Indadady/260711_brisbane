@@ -18,7 +18,6 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="2026 영월신천초 호주 글로벌 리더십 캠프 제안서">
     <meta property="og:description" content="호주 브리즈번 UniSQ 명문대 부설 UIL 홈스테이 몰입형 영어 캠프 & 스쿨링 체험">
-    <!-- 브리즈번/골드코스트 느낌의 고화질 이미지 썸네일 -->
     <meta property="og:image" content="https://tse1.mm.bing.net/th/id/OIP.PvZ-Oom0Ue1aO4NG1QQkWAHaE8?w=474&h=474&c=7&p=0">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -30,6 +29,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    
+    <!-- 🗺️ Leaflet Map CSS & JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
     <style>
         body { font-family: 'Noto Sans KR', sans-serif; background-color: #f8fafc; color: #1e293b; }
         
@@ -91,6 +95,27 @@
                 transform: translate(0, 50%);
             }
         }
+        
+        /* 🗺️ Animated Map Styles */
+        .animated-path {
+            stroke-dasharray: 10, 15;
+            animation: dash 20s linear infinite;
+        }
+        @keyframes dash {
+            to { stroke-dashoffset: -1000; }
+        }
+        .map-marker-custom {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: white;
+            border: 2px solid white;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3);
+            font-size: 14px;
+        }
+        /* Leaflet z-index fix to prevent overlapping header */
+        .leaflet-container { z-index: 1 !important; }
     </style>
 </head>
 <body class="antialiased bg-slate-50">
@@ -122,6 +147,7 @@
                         <a href="#flight"      class="nav-link px-3 py-2 border-b-2 border-transparent hover:text-orange-600">항공정보</a>
                         <a href="#academy"     class="nav-link px-3 py-2 border-b-2 border-transparent hover:text-orange-600">UIL캠퍼스/홈스테이</a>
                         <a href="#curriculum"  class="nav-link px-3 py-2 border-b-2 border-transparent hover:text-orange-600">상세일과</a>
+                        <a href="#map-section" class="nav-link px-3 py-2 border-b-2 border-transparent hover:text-orange-600">동선지도</a>
                         <a href="#video"       class="nav-link px-3 py-2 border-b-2 border-transparent hover:text-orange-600">호주미리보기</a>
                         <a href="#safety"      class="nav-link px-3 py-2 border-b-2 border-transparent hover:text-orange-600 font-bold text-red-600">안전매뉴얼</a>
                         <a href="#mynote"      class="nav-link px-3 py-2 border-b-2 border-transparent text-yellow-600 font-bold"><i class="fa-solid fa-pen-to-square"></i> MY 노트</a>
@@ -136,6 +162,7 @@
                 <a href="#flight" class="block">항공</a>
                 <a href="#academy" class="block">캠퍼스/숙소</a>
                 <a href="#curriculum" class="block">일과표</a>
+                <a href="#map-section" class="block">동선지도</a>
                 <a href="#video" class="block">영상</a>
                 <a href="#safety" class="block font-bold text-red-600">안전매뉴얼</a>
                 <a href="#mynote" class="block text-yellow-600 font-bold">★노트</a>
@@ -193,12 +220,12 @@
                     <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
                         <div class="w-14 h-14 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-4 text-3xl"><i class="fa-solid fa-house-chimney-user"></i></div>
                         <h3 class="text-xl font-bold text-slate-800 mb-2">홈스테이 & 로컬 스쿨링</h3>
-                        <p class="text-slate-600 text-sm leading-relaxed mb-4">엄격히 선발된 <span class="text-blue-600 font-bold">호주 현지 가정 홈스테이</span> 배정과 <span class="text-blue-600 font-bold">현지 학교 방문(Integration)</span> 프로그램을 통해 언어뿐 아니라 찐 호주 문화를 경험하는 잊지 못할 기회를 제공합니다.</p>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-4">엄격히 선발된 <span class="text-blue-600 font-bold">호주 현지 가정 홈스테이</span> 배정과 <span class="text-blue-600 font-bold">로컬 학교 스쿨링(Integration)</span> 프로그램을 통해 언어뿐 아니라 찐 호주 문화를 경험하는 기회를 제공합니다.</p>
                     </div>
                     <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
                         <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mb-4 text-3xl"><i class="fa-solid fa-ticket"></i></div>
-                        <h3 class="text-xl font-bold text-slate-800 mb-2">드림월드 & 대자연 체험</h3>
-                        <p class="text-slate-600 text-sm leading-relaxed mb-4">초등학생 눈높이에 가장 완벽한 테마파크인 골드코스트 <span class="text-emerald-600 font-bold">드림월드(Dreamworld) 종일권 체험</span>이 포함되어 배움과 즐거움을 동시에 잡았습니다.</p>
+                        <h3 class="text-xl font-bold text-slate-800 mb-2">무비월드 & 대자연 체험</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-4">호주 최대 테마파크 중 하나인 <span class="text-emerald-600 font-bold">워너브라더스 무비월드 종일권</span> 체험 및 코알라 생태 구역 방문이 포함되어 배움과 즐거움을 동시에 잡았습니다.</p>
                     </div>
                 </div>
             </div>
@@ -281,7 +308,7 @@
                 <div class="text-center mb-16">
                     <span class="text-orange-600 font-bold tracking-wider uppercase">Camp Roadmap</span>
                     <h2 class="text-3xl md:text-4xl font-bold mt-2">호주 스터디 투어 전체 일정 (6박 8일)</h2>
-                    <p class="text-slate-500 mt-3">아카데믹 교육, 홈스테이, 테마파크, 로컬 스쿨링이 완벽하게 짜인 스케줄입니다.</p>
+                    <p class="text-slate-500 mt-3">아카데믹 교육, 홈스테이, 로컬 스쿨링, 무비월드가 완벽하게 짜인 스케줄입니다.</p>
                 </div>
 
                 <div class="max-w-6xl mx-auto">
@@ -298,9 +325,8 @@
                             <div class="bg-slate-50 p-4 rounded-lg shadow-sm border border-slate-200 text-sm w-full h-full">
                                 <ul class="text-left space-y-1.5 text-slate-600">
                                     <li>• 인천공항 집결 및 출국 수속</li>
-                                    <li>• <strong>KE 407 직항 탑승</strong></li>
+                                    <li>• <strong>직항편 탑승 후 출발</strong></li>
                                     <li>• 기내식 제공 및 기내 휴식</li>
-                                    <li>• (기내 1박)</li>
                                 </ul>
                             </div>
                         </div>
@@ -311,14 +337,13 @@
                                 🦘
                             </div>
                             <h3 class="font-bold text-lg text-slate-800">2일차 <span class="text-sm font-normal text-slate-500">(7/12 일)</span></h3>
-                            <p class="text-sm text-orange-600 font-bold mb-3 bg-orange-50 px-3 py-1 rounded-full">도착 및 대자연 체험</p>
+                            <p class="text-sm text-orange-600 font-bold mb-3 bg-orange-50 px-3 py-1 rounded-full">도착 및 브리즈번 투어</p>
                             <div class="bg-slate-50 p-4 rounded-lg shadow-sm border border-slate-200 text-sm w-full h-full">
                                 <ul class="text-left space-y-1.5 text-slate-600">
                                     <li>• 브리즈번 공항 입국</li>
-                                    <li>• 마운트 쿠사 전망대 & 시티 투어</li>
-                                    <li>• <strong>론파인 코알라 생태 구역 체험</strong></li>
-                                    <li>• 퀸즐랜드 박물관 견학</li>
-                                    <li class="font-bold text-blue-600">• 호스트 패밀리 미팅 및 홈스테이 귀가</li>
+                                    <li>• 마운트 쿠사 전망대 방문</li>
+                                    <li>• 퀸즐랜드 박물관 & 사우스뱅크 투어</li>
+                                    <li class="font-bold text-blue-600">• UIL 캠퍼스에서 호스트 패밀리 미팅</li>
                                 </ul>
                             </div>
                         </div>
@@ -328,16 +353,16 @@
                             <div class="w-16 h-16 bg-white border-4 border-orange-500 rounded-full flex items-center justify-center text-2xl shadow-lg z-10 mb-4 text-orange-600">
                                 🎒
                             </div>
-                            <h3 class="font-bold text-lg text-slate-800">3~4, 6~7일차 <span class="text-sm font-normal text-slate-500">(평일)</span></h3>
+                            <h3 class="font-bold text-lg text-slate-800">3~6일차 <span class="text-sm font-normal text-slate-500">(평일)</span></h3>
                             <p class="text-sm text-orange-600 font-bold mb-3 bg-orange-50 px-3 py-1 rounded-full">어학 & 로컬 스쿨링</p>
                             <div class="bg-slate-50 p-4 rounded-lg shadow-sm border border-slate-200 text-sm w-full h-full border-l-4 border-l-blue-400">
                                 <ul class="text-left space-y-1.5 text-slate-600">
-                                    <li>• <strong>[오전] UIL 영어 몰입 수업</strong></li>
+                                    <li>• <strong>[오전/오후] UIL 영어 몰입 수업</strong></li>
                                     <li>• <strong>[오후 액티비티]</strong></li>
-                                    <li class="text-xs text-slate-500 ml-2">- 입스위치 퀸즈파크 탐방</li>
-                                    <li class="text-xs text-slate-500 ml-2">- 오리온 마켓 투어 등</li>
-                                    <li class="font-bold text-orange-600">• (목) 호주 현지 학교 방문(Integration)</li>
-                                    <li>• (금) 송별 수료식 및 파티</li>
+                                    <li class="text-xs text-slate-500 ml-2">- 아이스브레이킹 & UniSQ 워크샵</li>
+                                    <li class="text-xs text-slate-500 ml-2">- 퀸즐랜드 경찰청 안전 교육</li>
+                                    <li class="text-xs text-slate-500 ml-2">- 론파인 코알라 보호구역</li>
+                                    <li class="font-bold text-orange-600">• (수) 호주 로컬 스쿨링(Integration)</li>
                                 </ul>
                             </div>
                         </div>
@@ -347,13 +372,13 @@
                             <div class="w-16 h-16 bg-white border-4 border-orange-500 rounded-full flex items-center justify-center text-2xl shadow-lg z-10 mb-4 text-orange-600">
                                 🎢
                             </div>
-                            <h3 class="font-bold text-lg text-slate-800">5일차 <span class="text-sm font-normal text-slate-500">(7/15 수)</span></h3>
-                            <p class="text-sm text-orange-600 font-bold mb-3 bg-orange-50 px-3 py-1 rounded-full">드림월드 풀데이</p>
+                            <h3 class="font-bold text-lg text-slate-800">7일차 <span class="text-sm font-normal text-slate-500">(7/17 금)</span></h3>
+                            <p class="text-sm text-orange-600 font-bold mb-3 bg-orange-50 px-3 py-1 rounded-full">무비월드 풀데이</p>
                             <div class="bg-slate-50 p-4 rounded-lg shadow-sm border border-slate-200 text-sm w-full h-full border-l-4 border-l-yellow-400">
                                 <ul class="text-left space-y-1.5 text-slate-600">
-                                    <li>• 전일정 테마파크 특별 액티비티</li>
-                                    <li>• <strong>골드코스트 드림월드(Dreamworld)</strong></li>
-                                    <li>• 초등학생 맞춤 어트랙션 및 동물 관람</li>
+                                    <li>• 전일정 테마파크 엑스커션</li>
+                                    <li>• <strong>워너브라더스 무비월드(Movie World)</strong></li>
+                                    <li>• 각종 어트랙션 및 캐릭터 공연 관람</li>
                                     <li>• 친구들과 잊지 못할 추억 만들기</li>
                                     <li>• 석식 후 홈스테이 귀가</li>
                                 </ul>
@@ -371,7 +396,7 @@
                                 <ul class="text-left space-y-1.5 text-slate-600">
                                     <li>• 호스트 패밀리와의 아쉬운 작별</li>
                                     <li>• 브리즈번 공항으로 이동 및 수속</li>
-                                    <li>• <strong>KE 408편 탑승 (호주 출발)</strong></li>
+                                    <li>• <strong>직항편 탑승 (호주 출발)</strong></li>
                                     <li>• 인천공항 도착 및 부모님 인계</li>
                                 </ul>
                             </div>
@@ -416,7 +441,7 @@
                                     <div class="text-orange-500 mt-1 text-lg"><i class="fa-solid fa-school-flag"></i></div>
                                     <div>
                                         <h4 class="font-bold text-slate-800">현지 학교 통합 체험 (School Integration)</h4>
-                                        <p class="text-sm text-slate-600 mt-1">호주 로컬 학교를 직접 방문하여 또래 학생들과 교류하는 스쿨링 일정이 포함되어 있어, 글로벌 시대의 국제 감각과 자신감을 비약적으로 성장시킵니다.</p>
+                                        <p class="text-sm text-slate-600 mt-1">Mastery Schools Australia 등 호주 로컬 학교를 직접 방문하여 또래 현지 학생들과 교류하는 스쿨링 일정이 포함되어 있어 글로벌 감각과 자신감을 키웁니다.</p>
                                     </div>
                                 </div>
                                 <div class="flex gap-3">
@@ -449,8 +474,8 @@
             <div class="container mx-auto px-4">
                 <div class="text-center mb-10">
                     <span class="text-orange-600 font-bold tracking-wider uppercase">Weekly Schedule</span>
-                    <h2 class="text-3xl md:text-4xl font-bold mt-2">일일 상세 일과표</h2>
-                    <p class="text-slate-500 mt-2">입스위치, 현지 마켓, 스쿨링 등 매일 다채로운 오후 일정이 준비되어 있습니다.</p>
+                    <h2 class="text-3xl md:text-4xl font-bold mt-2">일일 상세 일과표 (최종안)</h2>
+                    <p class="text-slate-500 mt-2">안전 교육, 코알라 생태 체험, 현지 로컬 스쿨링 등 다채로운 일정이 준비되어 있습니다.</p>
                 </div>
 
                 <!-- Table Container -->
@@ -459,52 +484,57 @@
                         <h3 class="text-lg md:text-xl font-bold flex items-center gap-2">
                             <i class="fa-regular fa-calendar-days"></i> UIL Study Tour 상세 액티비티
                         </h3>
-                        <span class="text-sm bg-orange-600 px-3 py-1 rounded-full font-bold">오전 집중 ESL + 맞춤 액티비티</span>
+                        <span class="text-sm bg-orange-600 px-3 py-1 rounded-full font-bold">오전 집중 ESL + 오후 맞춤형 액티비티</span>
                     </div>
                     
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse schedule-table min-w-[600px]">
                             <thead>
                                 <tr class="bg-slate-100 text-slate-600 text-sm tracking-wider border-b-2 border-slate-200">
-                                    <th class="p-4 w-[20%]">요일/날짜</th>
-                                    <th class="p-4 w-[40%]">오전 일정 (Morning)</th>
-                                    <th class="p-4 w-[40%]">오후 일정 (Afternoon)</th>
+                                    <th class="p-4 w-[18%]">요일/날짜</th>
+                                    <th class="p-4 w-[41%]">오전 일정 (Morning)</th>
+                                    <th class="p-4 w-[41%]">오후 일정 (Afternoon/Activity)</th>
                                 </tr>
                             </thead>
                             <tbody class="text-sm md:text-base text-slate-700">
                                 <tr class="border-b hover:bg-slate-50 bg-orange-50/20">
                                     <td class="p-4 font-mono font-bold text-slate-700">DAY 2<br><span class="text-xs text-slate-500">7/12 (일)</span></td>
-                                    <td class="p-4 text-blue-700 font-bold">Welcome to Brisbane!</td>
-                                    <td class="p-4">마운트 쿠사(Mt Coot-tha) 전망대 관람<br>론파인 코알라 생태공원 & 박물관 방문<br><strong>호스트 패밀리 미팅 및 홈스테이 귀가</strong></td>
+                                    <td class="p-4 text-blue-700 font-bold">브리즈번 도착 및 투어 시작</td>
+                                    <td class="p-4">
+                                        1. 마운트 쿠사(Mt Coot-tha) 전망대 관람<br>
+                                        2. 퀸즐랜드 박물관 & 사우스뱅크 투어<br>
+                                        3. 중식 후 UIL Springfield 캠퍼스 이동<br>
+                                        <strong>4. 호스트 패밀리 미팅 및 홈스테이 귀가</strong>
+                                    </td>
                                 </tr>
                                 <tr class="border-b hover:bg-slate-50">
                                     <td class="p-4 font-mono font-bold text-slate-700">DAY 3<br><span class="text-xs text-slate-500">7/13 (월)</span></td>
-                                    <td class="p-4">UIL Welcome Ceremony<br>수준별 English Class 진행</td>
-                                    <td class="p-4 font-medium">퀸즈 파크 입스위치 (Queens Park Ipswich) 탐방</td>
+                                    <td class="p-4">Orientation & English Class (Closed)</td>
+                                    <td class="p-4 font-medium">English Class (Closed) 및<br><span class="text-emerald-600 font-bold">타 학생들과의 아이스브레이킹(Icebreaker) 액티비티</span></td>
                                 </tr>
                                 <tr class="border-b hover:bg-slate-50">
                                     <td class="p-4 font-mono font-bold text-slate-700">DAY 4<br><span class="text-xs text-slate-500">7/14 (화)</span></td>
-                                    <td class="p-4">English Class (Speaking/Listening)</td>
-                                    <td class="p-4 font-medium">오리온 스프링필드 센트럴 (Market Day) 체험</td>
+                                    <td class="p-4">Orientation & English Class (Closed)</td>
+                                    <td class="p-4 font-medium">English Class (Closed) 및<br><span class="text-red-600 font-bold"><i class="fa-solid fa-shield-halved"></i> 퀸즐랜드 경찰청 주관 안전 교육 세미나</span></td>
+                                </tr>
+                                <tr class="border-b hover:bg-slate-50 bg-blue-50/40">
+                                    <td class="p-4 font-mono font-bold text-slate-700">DAY 5<br><span class="text-xs text-slate-500">7/15 (수)</span></td>
+                                    <td class="p-4 font-bold text-blue-700"><i class="fa-solid fa-school-flag"></i> 로컬 스쿨링 (Integration class)<br><span class="text-sm font-normal text-slate-600">at Mastery Schools Australia Springfield</span></td>
+                                    <td class="p-4 font-medium">론파인 코알라 보호구역(Lone Pine Koala Sanctuary)<br><span class="text-sm font-normal text-slate-600">생태 교육 프로그램 체험</span></td>
+                                </tr>
+                                <tr class="bg-white border-b">
+                                    <td class="p-4 font-mono font-bold text-slate-700">DAY 6<br><span class="text-xs text-slate-500">7/16 (목)</span></td>
+                                    <td class="p-4">English Class (Closed group)</td>
+                                    <td class="p-4 font-medium">English Class (Closed group) 및<br><span class="text-blue-700 font-bold">UniSQ 대학교 워크샵 체험</span></td>
                                 </tr>
                                 <tr class="border-b hover:bg-slate-50 bg-yellow-50/40">
-                                    <td class="p-4 font-mono font-bold text-slate-700">DAY 5<br><span class="text-xs text-slate-500">7/15 (수)</span></td>
-                                    <td class="p-4 font-bold text-orange-600" colspan="2"><i class="fa-solid fa-ticket"></i> Full Day Excursion : 골드코스트 드림월드 (Dreamworld) 종일 체험</td>
-                                </tr>
-                                <tr class="bg-slate-100 border-b">
-                                    <td class="p-4 font-mono font-bold text-slate-700">DAY 6<br><span class="text-xs text-slate-500">7/16 (목)</span></td>
-                                    <td class="p-4">English Class</td>
-                                    <td class="p-4 font-bold text-blue-700"><i class="fa-solid fa-school-flag"></i> Integration to Local School<br><span class="text-sm font-normal text-slate-600">(현지 학교 방문 및 스쿨링 교류 체험)</span></td>
-                                </tr>
-                                <tr class="border-b hover:bg-slate-50">
                                     <td class="p-4 font-mono font-bold text-slate-700">DAY 7<br><span class="text-xs text-slate-500">7/17 (금)</span></td>
-                                    <td class="p-4">마지막 English Class 진행</td>
-                                    <td class="p-4 font-medium text-emerald-600">Farewell Ceremony (수료식 및 송별회)</td>
+                                    <td class="p-4 font-bold text-orange-600" colspan="2"><i class="fa-solid fa-ticket"></i> Full-day Excursion : 워너브라더스 무비월드 (Movie World) 테마파크 종일 체험</td>
                                 </tr>
                                 <tr class="border-b hover:bg-slate-50 bg-orange-50/20">
                                     <td class="p-4 font-mono font-bold text-slate-700">DAY 8<br><span class="text-xs text-slate-500">7/18 (토)</span></td>
                                     <td class="p-4 font-bold">Farewell to Homestay</td>
-                                    <td class="p-4">홈스테이 작별 및 브리즈번 공항으로 이동<br><strong>KE 408편 탑승 후 한국으로 귀국</strong></td>
+                                    <td class="p-4">홈스테이 작별 및 브리즈번 공항으로 이동<br><strong>탑승 수속 및 한국으로 귀국</strong></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -512,7 +542,30 @@
                 </div>
                 <!-- 식사 안내 추가 -->
                 <div class="max-w-5xl mx-auto mt-4 bg-slate-100 p-4 rounded-lg text-sm text-slate-600">
-                    <p><i class="fa-solid fa-circle-info text-blue-500"></i> <strong>홈스테이 식사 안내:</strong> 홈스테이 체류 기간 동안 매일 조식과 석식은 호스트 패밀리와 함께하며, 중식(점심)은 어학원 및 외부 투어 일정 중에 별도로 진행됩니다.</p>
+                    <p><i class="fa-solid fa-circle-info text-blue-500"></i> <strong>홈스테이 식사 안내:</strong> 홈스테이 체류 기간 동안 매일 조식과 석식은 호스트 패밀리와 함께하며, 중식(점심)은 학교/어학원 및 외부 투어 일정 중에 제공됩니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Animated Routing Map Section -->
+        <section id="map-section" class="py-20 bg-slate-100 border-b border-slate-200">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-10">
+                    <span class="text-blue-600 font-bold tracking-wider uppercase">Animated Routing Map</span>
+                    <h2 class="text-3xl md:text-4xl font-bold mt-2">한눈에 보는 탐방 동선</h2>
+                    <p class="text-slate-500 mt-2">일자별 버튼을 클릭하시면 브리즈번과 골드코스트를 넘나드는 세부 이동 경로가 애니메이션으로 표시됩니다.</p>
+                </div>
+                
+                <div class="max-w-6xl mx-auto">
+                    <!-- Map Controls -->
+                    <div class="flex flex-wrap justify-center gap-2 mb-6" id="map-controls">
+                        <!-- JS generated buttons -->
+                    </div>
+                    
+                    <!-- Map Container -->
+                    <div class="bg-white p-2 rounded-2xl shadow-xl border border-slate-200">
+                        <div id="routeMap" class="w-full h-[450px] md:h-[600px] rounded-xl z-0"></div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -547,7 +600,7 @@
                         <p class="mt-4 text-sm text-slate-300 leading-relaxed font-medium bg-slate-700/50 p-4 rounded-lg border border-slate-600">
                             <i class="fa-solid fa-quote-left text-orange-400 mr-2"></i>
                             본 공식 영상은 우리 아이들이 생활하게 될 UIL 캠퍼스와 퀸즐랜드의 활기찬 일상을 그대로 담고 있습니다.<br><br>
-                            다국적 학생들이 모인 현대적인 어학원 시설, 친절한 원어민 강사진과의 교류를 생생하게 확인해 보세요. 우리 신천초 학생들은 영상 속의 <strong>훌륭한 글로벌 교육 환경</strong>을 누림과 동시에, 투어메이커가 학교를 위해 별도로 특별 기획한 <strong>'로컬 스쿨링 교류' 및 '엄선된 홈스테이 생활'</strong>을 추가로 경험하며 완벽한 호주 스터디 투어를 완성하게 됩니다.
+                            다국적 학생들이 모인 현대적인 어학원 시설, 친절한 원어민 강사진과의 교류를 생생하게 확인해 보세요. 우리 신천초 학생들은 영상 속의 <strong>훌륭한 글로벌 교육 환경</strong>을 누림과 동시에, 특별 기획된 <strong>'로컬 학교 스쿨링' 및 '경찰청 주관 안전 세미나'</strong> 등을 추가로 경험하며 완벽한 호주 스터디 투어를 완성하게 됩니다.
                         </p>
                     </div>
                 </div>
@@ -743,7 +796,7 @@
                 { id: 'aus_clothes_winter', text: '가을/겨울 의류 (긴팔, 기모 후드티, 바람막이, 경량 패딩)' },
                 { id: 'aus_clothes_summer', text: '겹쳐 입을 수 있는 반팔 (낮 시간 활동용)' },
                 { id: 'aus_adapter', text: '멀티 어댑터 (호주는 \'/\\\' 모양의 3구 플러그 사용)' },
-                { id: 'aus_shoes', text: '편안한 운동화 (드림월드 및 스쿨링 활동 시 필수)' },
+                { id: 'aus_shoes', text: '편안한 운동화 (무비월드 및 스쿨링 활동 시 필수)' },
                 { id: 'aus_sun', text: '자외선 차단제, 선글라스 (겨울에도 호주 자외선은 강함)' },
                 { id: 'aus_meds', text: '개인 상비약 (멀미약, 장염약, 해열제, 종합감기약)' },
                 { id: 'aus_stationery', text: '필기도구 및 노트 (현지 로컬 학교 교류 시 필요)' }
@@ -774,6 +827,128 @@
                     });
                 }
             }
+
+            // --- 🗺️ Animated Map Logic ---
+            const mapData = {
+                locations: {
+                    bne: { name: '브리즈번 공항 (BNE)', lat: -27.3842, lng: 153.1198, icon: 'fa-plane-arrival', color: '#64748b' },
+                    mtcoot: { name: '마운트 쿠사 전망대', lat: -27.4766, lng: 152.9558, icon: 'fa-mountain', color: '#3b82f6' },
+                    southbank: { name: '사우스뱅크 & 박물관', lat: -27.4735, lng: 153.0183, icon: 'fa-building-columns', color: '#0ea5e9' },
+                    uil: { name: 'UIL 캠퍼스 (숙소/본부)', lat: -27.6710, lng: 152.9181, icon: 'fa-house-chimney-user', color: '#ea580c' },
+                    queens: { name: '퀸즈파크 입스위치', lat: -27.6186, lng: 152.7667, icon: 'fa-tree', color: '#10b981' },
+                    orion: { name: '오리온 마켓', lat: -27.6833, lng: 152.9100, icon: 'fa-store', color: '#f59e0b' },
+                    mastery: { name: 'Mastery Schools 스쿨링', lat: -27.6698, lng: 152.9125, icon: 'fa-school', color: '#8b5cf6' },
+                    lonepine: { name: '론파인 코알라', lat: -27.5332, lng: 152.9689, icon: 'fa-paw', color: '#ec4899' },
+                    movieworld: { name: '워너브라더스 무비월드', lat: -27.8624, lng: 153.3120, icon: 'fa-ticket', color: '#eab308' }
+                },
+                routes: [
+                    { id: 'all', label: '전체 여정', color: '#94a3b8', path: [] },
+                    { id: 'day2', label: '2일차(도착/투어)', color: '#3b82f6', path: ['bne', 'mtcoot', 'southbank', 'uil'] },
+                    { id: 'day3', label: '3일차(퀸즈파크)', color: '#10b981', path: ['uil', 'queens', 'uil'] },
+                    { id: 'day4', label: '4일차(오리온마켓)', color: '#f59e0b', path: ['uil', 'orion', 'uil'] },
+                    { id: 'day5', label: '5일차(스쿨링/코알라)', color: '#ec4899', path: ['uil', 'mastery', 'lonepine', 'uil'] },
+                    { id: 'day7', label: '7일차(무비월드)', color: '#8b5cf6', path: ['uil', 'movieworld', 'uil'] },
+                    { id: 'day8', label: '8일차(귀국)', color: '#64748b', path: ['uil', 'bne'] }
+                ]
+            };
+
+            // Initialize Map (Disable scroll zoom to prevent breaking page scroll)
+            const map = L.map('routeMap', { scrollWheelZoom: false }).setView([-27.6, 153.0], 10);
+            
+            // Add light/modern basemap tiles
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+
+            let currentPolylines = [];
+            let currentMarkers = [];
+
+            function renderMap(routeId) {
+                // Clear existing paths and markers
+                currentPolylines.forEach(p => map.removeLayer(p));
+                currentMarkers.forEach(m => map.removeLayer(m));
+                currentPolylines = [];
+                currentMarkers = [];
+
+                const drawRoute = (r) => {
+                    const latlngs = r.path.map(locId => [mapData.locations[locId].lat, mapData.locations[locId].lng]);
+                    
+                    // Draw animated polyline
+                    const polyline = L.polyline(latlngs, {
+                        color: r.color,
+                        weight: 5,
+                        opacity: 0.8,
+                        className: 'animated-path'
+                    }).addTo(map);
+                    currentPolylines.push(polyline);
+
+                    // Add Custom Markers with FontAwesome
+                    const addedLocs = new Set();
+                    r.path.forEach(locId => {
+                        if (!addedLocs.has(locId)) {
+                            const loc = mapData.locations[locId];
+                            const icon = L.divIcon({
+                                className: 'custom-div-icon',
+                                html: `<div class="map-marker-custom" style="background-color: ${loc.color}; width: 34px; height: 34px;">
+                                        <i class="fa-solid ${loc.icon}"></i>
+                                       </div>`,
+                                iconSize: [34, 34],
+                                iconAnchor: [17, 17]
+                            });
+                            const marker = L.marker([loc.lat, loc.lng], {icon: icon})
+                                .bindTooltip(`<b>${loc.name}</b>`, { direction: 'top', offset: [0, -15], permanent: routeId !== 'all', className: 'text-sm' })
+                                .addTo(map);
+                            currentMarkers.push(marker);
+                            addedLocs.add(locId);
+                        }
+                    });
+                };
+
+                let boundsToFit = [];
+
+                if (routeId === 'all') {
+                    // Draw all routes
+                    mapData.routes.filter(r => r.id !== 'all').forEach(drawRoute);
+                    boundsToFit = Object.values(mapData.locations).map(loc => [loc.lat, loc.lng]);
+                } else {
+                    const r = mapData.routes.find(r => r.id === routeId);
+                    if (r) {
+                        drawRoute(r);
+                        boundsToFit = r.path.map(locId => [mapData.locations[locId].lat, mapData.locations[locId].lng]);
+                    }
+                }
+
+                // Automatically zoom & pan to fit the route
+                if (boundsToFit.length > 0) {
+                    map.fitBounds(L.latLngBounds(boundsToFit), { padding: [50, 50], maxZoom: 14 });
+                }
+                
+                // Update Button Active States
+                document.querySelectorAll('.map-btn').forEach(btn => {
+                    if (btn.dataset.route === routeId) {
+                        btn.classList.remove('bg-white', 'text-slate-600', 'border-slate-200');
+                        btn.classList.add('bg-slate-800', 'text-white', 'border-slate-800');
+                    } else {
+                        btn.classList.remove('bg-slate-800', 'text-white', 'border-slate-800');
+                        btn.classList.add('bg-white', 'text-slate-600', 'border-slate-200');
+                    }
+                });
+            }
+
+            // Create Buttons Dynamically
+            const controlsContainer = document.getElementById('map-controls');
+            mapData.routes.forEach(r => {
+                const btn = document.createElement('button');
+                btn.className = `map-btn px-4 py-2 rounded-full border text-sm font-bold transition-colors shadow-sm`;
+                btn.innerText = r.label;
+                btn.dataset.route = r.id;
+                btn.onclick = () => renderMap(r.id);
+                controlsContainer.appendChild(btn);
+            });
+
+            // Initialize Map with 'all' routes after a short delay
+            setTimeout(() => renderMap('all'), 500);
+
         });
     </script>
 </body>
